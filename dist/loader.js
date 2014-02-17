@@ -35,7 +35,7 @@ var requirejs, require, define;
 
         //Adjust any relative paths.
         if (name && name.charAt(0) === ".") {
-            //If have a base name, try to normalize against it,
+            //If have a base name, try to normalize against it,$.fn.datagrid
             //otherwise, assume it is a top-level require that will
             //be relative to baseUrl in the end.
             if (baseName) {
@@ -3112,6 +3112,10 @@ define('fuelux/datagrid',['require','jquery'],function (require) {
 
 	var Datagrid = function (element, options) {
 		this.$element = $(element);
+		if (options.reloadData){
+			this.$element.find('thead').html('');
+			this.$element.find('tbody').remove();
+		}
 		this.$thead = this.$element.find('thead');
 		this.$tfoot = this.$element.find('tfoot');
 		this.$footer = this.$element.find('tfoot th');
@@ -3451,7 +3455,7 @@ define('fuelux/datagrid',['require','jquery'],function (require) {
 			var data    = $this.data( 'datagrid' );
 			var options = typeof option === 'object' && option;
 
-			if( !data ) $this.data('datagrid', (data = new Datagrid( this, options ) ) );
+			if( !data || option.reloadData ) $this.data('datagrid', (data = new Datagrid( this, options ) ) );
 			if( typeof option === 'string' ) methodReturn = data[ option ].apply( data, args );
 		});
 
